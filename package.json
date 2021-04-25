@@ -1,0 +1,24 @@
+{
+  "name": "starbin",
+  "version": "1.0.0",
+  "description": "A hastebin-compatible paste site running on Cloudflare Workers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "wrangler publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LostLuma/starbin.git"
+  },
+  "author": "Lilly Rose Berner <lilly@lostluma.dev> (https://lostluma.dev)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LostLuma/starbin/issues"
+  },
+  "homepage": "https://starb.in",
+  "devDependencies": {
+    "@cloudflare/wrangler": "^1.16.0",
+    "prettier": "^2.2.1"
+  }
+}
