@@ -36,7 +36,7 @@ class HTTPError extends Error {
 
 function generateId() {
   let id = "";
-  let keyspace = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const keyspace = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
   for (let idx = 0; idx < DOCUMENT_KEY_SIZE; idx++) {
     id += keyspace.charAt(Math.random() * keyspace.length);
