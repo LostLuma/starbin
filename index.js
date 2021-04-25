@@ -59,9 +59,13 @@ async function getRawId(id) {
 }
 
 async function postDocuments(request) {
-  const length = request.headers.get("Content-Length") || 0;
+  const length = Number(request.headers.get("Content-Length") || 0);
 
-  if (Number(length) > MAX_DOCUMENT_SIZE) {
+  if (!length) {
+    throw new HTTPError(400, "Content must contain at least one character.");
+  }
+
+  if (length > MAX_DOCUMENT_SIZE) {
     throw new HTTPError(400, `Content must be shorter than ${MAX_DOCUMENT_SIZE} (was ${length}).`);
   }
 
