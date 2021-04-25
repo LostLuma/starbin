@@ -124,12 +124,13 @@ async function handleEvent(event) {
       throw e;
     }
 
+    const json = { message: e.message };
     const headers = {
       "Cache-Control": "no-cache",
       "Content-Type": "application/json; charset=UTF-8",
     };
-    const data = JSON.stringify({ message: e.message });
 
+    const data = JSON.stringify(json);
     return new Response(data, { headers, status: e.status });
   }
 }
