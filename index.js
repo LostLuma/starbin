@@ -22,11 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-const DOCUMENT_KEY_SIZE = 6;
-
-const MAX_DOCUMENT_SIZE = 400000;
-const DOCUMENT_EXPIRE_TTL = 86400 * 180;
-
 export class HTTPError extends Error {
   constructor(status, message) {
     super(message);
