@@ -8,7 +8,7 @@ To deploy as a pages project you will need to set up the following:
 
 KV namespace bindings:
 
-- ``STORAGE``: A KV namespace to storage pastes in
+- ``STORAGE``: A KV namespace to store pastes in
 
 Environment variables:
 
