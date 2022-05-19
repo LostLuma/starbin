@@ -22,14 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-const DOCUMENT_KEY_SIZE = 6;
+import { HTTPError } from "../..";
 
-const MAX_DOCUMENT_SIZE = 400000;
-const DOCUMENT_EXPIRE_TTL = 86400 * 180;
+export async function onRequestGet({ params, env }) {
+  const content = await env.STORAGE.get(`documents:${params.id}`);
 
-export class HTTPError extends Error {
-  constructor(status, message) {
-    super(message);
-    this.status = status;
+  if (content) {
+    const headers = {
+      "Content-Type": "text/plain; charset=UTF-8",
+    };
+    return new Response(content, { headers, status: 200 });
   }
+
+  throw new HTTPError(404, `Document "${params.id}" not found.`);
 }

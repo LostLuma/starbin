@@ -22,14 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-const DOCUMENT_KEY_SIZE = 6;
+import { HTTPError } from "..";
 
-const MAX_DOCUMENT_SIZE = 400000;
-const DOCUMENT_EXPIRE_TTL = 86400 * 180;
+export async function onRequest({ next }) {
+  try {
+    return await next();
+  } catch (e) {
+    if (!(e instanceof HTTPError)) {
+      throw e;
+    }
 
-export class HTTPError extends Error {
-  constructor(status, message) {
-    super(message);
-    this.status = status;
+    const json = { message: e.message };
+    const headers = {
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json; charset=UTF-8",
+    };
+
+    const data = JSON.stringify(json);
+    return new Response(data, { headers, status: e.status });
   }
 }
