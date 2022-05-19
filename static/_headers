@@ -1,0 +1,6 @@
+https://starbin.pages.dev/*
+  X-Robots-Tag: noindex
+  Link: <https://starb.in/:splat>; rel="canonical"
+
+https://:commit.starbin.pages.dev/\*
+  Link: <https://starb.in/:splat>; rel="canonical"
