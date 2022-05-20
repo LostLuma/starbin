@@ -22,20 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { HTTPError } from "../..";
+export type Environment = {
+  STORAGE: KVNamespace;
 
-export async function onRequestGet({ params, env }) {
-  const content = await env.STORAGE.get(`documents:${params.id}`);
+  DOCUMENT_KEY_SIZE: number;
+  MAX_DOCUMENT_SIZE: number;
+  DOCUMENT_EXPIRE_TTL: number;
+};
 
-  if (content) {
-    const json = { key: params.id, data: content };
-    const headers = {
-      "Content-Type": "application/json; charset=UTF-8",
-    };
+export class HTTPError extends Error {
+  status: number;
 
-    const data = JSON.stringify(json);
-    return new Response(data, { headers, status: 200 });
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
   }
-
-  throw new HTTPError(404, `Document "${params.id}" not found.`);
 }

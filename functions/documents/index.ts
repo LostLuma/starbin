@@ -22,9 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { HTTPError } from "../..";
+import { Environment, HTTPError } from "../..";
 
-function generateId(size) {
+function generateId(size: number): string {
   let id = "";
   const keyspace = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -35,7 +35,7 @@ function generateId(size) {
   return id;
 }
 
-export async function onRequestPost({ request, env }) {
+export const onRequestPost: PagesFunction<Environment> = async ({ request, env }) => {
   const length = Number(request.headers.get("Content-Length") || 0);
 
   if (!length) {
@@ -63,4 +63,4 @@ export async function onRequestPost({ request, env }) {
 
   const data = JSON.stringify(json);
   return new Response(data, { headers, status: 200 });
-}
+};

@@ -22,23 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { HTTPError } from "..";
+import { Environment, HTTPError } from "../..";
 
-export async function onRequest({ next }) {
-  try {
-    return await next();
-  } catch (e) {
-    if (!(e instanceof HTTPError)) {
-      throw e;
-    }
+export const onRequestGet: PagesFunction<Environment> = async ({ params, env }) => {
+  const content = await env.STORAGE.get(`documents:${params.id}`);
 
-    const json = { message: e.message };
+  if (content) {
     const headers = {
-      "Cache-Control": "no-cache",
-      "Content-Type": "application/json; charset=UTF-8",
+      "Content-Type": "text/plain; charset=UTF-8",
     };
-
-    const data = JSON.stringify(json);
-    return new Response(data, { headers, status: e.status });
+    return new Response(content, { headers, status: 200 });
   }
-}
+
+  throw new HTTPError(404, `Document "${params.id}" not found.`);
+};

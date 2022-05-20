@@ -22,9 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-export class HTTPError extends Error {
-  constructor(status, message) {
-    super(message);
-    this.status = status;
+import { Environment, HTTPError } from "..";
+
+export const onRequest: PagesFunction<Environment> = async ({ next }) => {
+  try {
+    return await next();
+  } catch (e) {
+    if (!(e instanceof HTTPError)) {
+      throw e;
+    }
+
+    const json = { message: e.message };
+    const headers = {
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json; charset=UTF-8",
+    };
+
+    const data = JSON.stringify(json);
+    return new Response(data, { headers, status: e.status });
   }
-}
+};
