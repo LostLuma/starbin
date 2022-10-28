@@ -36,18 +36,20 @@ function generateId(size: number): string {
 }
 
 export const onRequestPost: PagesFunction<Environment> = async ({ request, env }) => {
-  const MAX_REQUESTS = env.MAX_REQUESTS_PER_MINUTE;
-  const ip = request.headers.get("CF-Connecting-IP");
+  if (env.MAX_REQUESTS_PER_MINUTE) {
+    const MAX_REQUESTS = env.MAX_REQUESTS_PER_MINUTE;
+    const ip = request.headers.get("CF-Connecting-IP");
 
-  let rate = parseInt(await env.STORAGE.get(`rate:${ip}`)) || 0;
-  if (rate >= MAX_REQUESTS) {
-    throw new HTTPError(429, `Max requests reached! Please try again later.`);
-  }
+    let rate = parseInt(await env.STORAGE.get(`rate:${ip}`)) || 0;
+    if (rate >= MAX_REQUESTS) {
+      throw new HTTPError(429, `Max requests reached! Please try again later.`);
+    }
 
-  try {
-    await env.STORAGE.put(`rate:${ip}`, (rate + 1).toString(), { expirationTtl: 61 });
-  } catch (err) {
-    console.log(err);
+    try {
+      await env.STORAGE.put(`rate:${ip}`, (rate + 1).toString(), { expirationTtl: 61 });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   const length = Number(request.headers.get("Content-Length") || 0);
