@@ -28,6 +28,7 @@ export type Environment = {
   DOCUMENT_KEY_SIZE: number;
   MAX_DOCUMENT_SIZE: number;
   DOCUMENT_EXPIRE_TTL: number;
+  MAX_REQUESTS_PER_MINUTE: number;
 };
 
 export class HTTPError extends Error {
