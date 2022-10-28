@@ -17,7 +17,7 @@ To deploy as a Pages project you will need to follow these steps:
   - `DOCUMENT_KEY_SIZE`: Number of digits to use for document URLs
   - `MAX_DOCUMENT_SIZE`: Maximum number of characters allowed per paste
   - `DOCUMENT_EXPIRE_TTL`: Number of seconds until documents expire
-  - `MAX_REQUESTS_PER_MINUTE` : Maximum number of creation requests per minute
+  - `MAX_REQUESTS_PER_MINUTE` : (Optional) Maximum number of creation requests per minute
 
 And that's it! You may now set a custom domain if you'd like the site to be available outside of workers.dev
 
